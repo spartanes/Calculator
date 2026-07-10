@@ -1,4 +1,4 @@
-/*#include<iostream>
+#include<iostream>
 class Calculator {
 public:
 	Calculator() //constructor without parameters
@@ -57,4 +57,4 @@ int main() {
 
 	int result_4 = calc1.calculator('/', 3);
 	std::cout << "Fourth value and operation: /, 3 - " << result_4 << " In memory: " << result_4 << std::endl;
-}*/
+}
