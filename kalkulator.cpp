@@ -1,71 +1,72 @@
 #include<iostream>
 class Calculator {
 public:
-	Calculator() //constructor without parameters
-	{
-		memory = 0;
-	}
-	Calculator(int startValue) //constructor with parameters
-	{
-		memory = startValue;
-	}
-	static int calculate(const int& value_1,const int& value_2, const char& operation)//static method
-		if (operation == '+') {
-			memory += value;
-		}
-		else if (operation == '-')
-			memory -= value;
-		else if (operation == '*')
-			memory *= value;
-		else if (operation == '/') {
-			// CANNOT DIVIDE BY 0
-			if (value == 0)
-			{
-				std::cout << "You cannot divide by 0, I`m sorry(" << std::endl;
-				return memory;
-			}
-			memory /= value;
-		}
-	return memory;
+	Calculator() { memory = 0; }//constructor without parameters
+	Calculator(int startValue) { memory = startValue; }//constructor with parameters
 
-	Calculator& calculate(const int& value, const char& operation) 
-	{
-		if (operation == '+') {
-			memory += value;
-		}
-		else if (operation == '-')
-			memory -= value;
-		else if (operation == '*')
-			memory *= value;
-		else if (operation == '/') {
-			// CANNOT DIVIDE BY 0
-			if (value == 0)
-			{
-				std::cout << "You cannot divide by 0, I`m sorry(" << std::endl;
-				return memory;
-			}
-			memory /= value;
-		}
-		return *this;
-	}
-	
 	int getCurrentValue() const { return memory };
-	
 	void setStartValue(int value)
 	{
 		memory = value;
+	}
+	//operators overloading
+	Calculator& operator+(int value) 
+	{
+		return *this += value;
+	}
+	Calculator& operator-(int value)
+	{
+		return *this -= value;
+	}
+	Calculator& operator*(int value)
+	{
+		return *this *= value;
+	}
+	Calculator& operator/(int value)
+	{
+		return *this /= value;
+	}
+	Calculator& operator+=(int value)
+	{
+		memory += value;
+		return *this;
+	}
+	Calculator& operator-=(int value)
+	{
+		memory -= value;
+		return *this;
+	}
+	Calculator& operator*=(int value)
+	{
+		memory *= value;
+		return *this;
+	}
+	Calculator& operator/=(int value)
+	{
+		if (value == 0)
+		{
+			std::cout << "You cannot divide by 0, I`m sorry(" << std::endl;
+			return *this;
+		}
+		memory /= value;
+		return *this;
 	}
 private:
 	int memory = 0;
 };
 
 int main() {
-	
-	int result = Calculator::calculate(10, 5, '-');
-	std::cout << "Result 10 - 5: " << result << std::endl;
+	Calculator obj(10);
+	std::cout << "Started value: " << obj.getCurrentValue() << std::endl;
 
-	Calculator my_calc(2);
+	obj + 5 * 10;
+	std::cout << "Result obj + 5 * 10 = " << obj.getCurrentValue() << std::endl;
 
-	int result_1 = my_calc.calculate(5, '+').calculate(4, '-').calculate(3, '*').getCurrentValue();
-	std::cout << "Operation and value: +, 5 - " << result_1 << std::endl;
+	obj.setStartValue(10);
+	(obj + 5) * 10;
+	std::cout << "Result (obj + 5) * 10 = " << obj.getCurrentValue() << std::endl;
+
+	obj.setStartValue(100);
+	obj /= 10;
+	std::cout << "Result obj /= 10 = " << obj.getCurrentValue() << std::endl;
 }
