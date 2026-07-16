@@ -5,13 +5,11 @@ public:
 	{
 		memory = 0;
 	}
-	Calculator(int startValue) //constructor wit parameters
+	Calculator(int startValue) //constructor with parameters
 	{
 		memory = startValue;
 	}
-
-	int calculator(char operation, int value) {
-		int result = 0;
+	static int calculate(const int& value_1,const int& value_2, const char& operation)//static method
 		if (operation == '+') {
 			memory += value;
 		}
@@ -28,8 +26,31 @@ public:
 			}
 			memory /= value;
 		}
-		return memory;
+	return memory;
+
+	Calculator& calculate(const int& value, const char& operation) 
+	{
+		if (operation == '+') {
+			memory += value;
+		}
+		else if (operation == '-')
+			memory -= value;
+		else if (operation == '*')
+			memory *= value;
+		else if (operation == '/') {
+			// CANNOT DIVIDE BY 0
+			if (value == 0)
+			{
+				std::cout << "You cannot divide by 0, I`m sorry(" << std::endl;
+				return memory;
+			}
+			memory /= value;
+		}
+		return *this;
 	}
+	
+	int getCurrentValue() const { return memory };
+	
 	void setStartValue(int value)
 	{
 		memory = value;
@@ -39,22 +60,12 @@ private:
 };
 
 int main() {
-	Calculator calc1 = 10;
-	int result = calc1.calculator('-', 5);
+	
+	int result = Calculator::calculate(10, 5, '-');
 	std::cout << "Result 10 - 5: " << result << std::endl;
 
-	calc1.setStartValue(5);
-	std::cout << "Started Value: 5 " << std::endl;
+	Calculator my_calc(2);
 
-	int result_1 = calc1.calculator('+', 5);
-	std::cout << "First operation and value: +, 5 - " << result_1 << " In memory: " << result_1 << std::endl;
-
-	int result_2 = calc1.calculator('*', 2);
-	std::cout << "Second operation and value: *, 2 - " << result_2 << " In memory: " << result_2 << std::endl;
-
-	int result_3 = calc1.calculator('-', 11);
-	std::cout << "Third value and operation: -, 11 - " << result_3 << " In memory: " << result_3 << std::endl;
-
-	int result_4 = calc1.calculator('/', 3);
-	std::cout << "Fourth value and operation: /, 3 - " << result_4 << " In memory: " << result_4 << std::endl;
+	int result_1 = my_calc.calculate(5, '+').calculate(4, '-').calculate(3, '*').getCurrentValue();
+	std::cout << "Operation and value: +, 5 - " << result_1 << std::endl;
 }
