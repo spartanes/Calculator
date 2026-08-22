@@ -1,4 +1,6 @@
 #include<iostream>
+#include <stdexcept>
+
 class Calculator {
 public:
 	Calculator() { memory = 0; }//constructor without parameters
@@ -45,7 +47,7 @@ public:
 	{
 		if (value == 0)
 		{
-			std::cout << "You cannot divide by 0, I`m sorry(" << std::endl;
+			std::runtime_error << "You cannot divide by 0, I`m sorry(" << std::endl;
 			return *this;
 		}
 		memory /= value;
@@ -59,14 +61,17 @@ int main() {
 	Calculator obj(10);
 	std::cout << "Started value: " << obj.getCurrentValue() << std::endl;
 
-	obj + 5 * 10;
-	std::cout << "Result obj + 5 * 10 = " << obj.getCurrentValue() << std::endl;
+	try 
+	{
+		obj.setStartValue(100);
+		obj /= 10;
+		std::cout << "Result obj /= 10 = " << obj.getCurrentValue() << std::endl;
 
-	obj.setStartValue(10);
-	(obj + 5) * 10;
-	std::cout << "Result (obj + 5) * 10 = " << obj.getCurrentValue() << std::endl;
-
-	obj.setStartValue(100);
-	obj /= 10;
-	std::cout << "Result obj /= 10 = " << obj.getCurrentValue() << std::endl;
+		// Тест ділення на нуль
+		std::cout << "Trying to divide by 0..." << std::endl;
+		obj /= 0;
+	}
+	catch (const std::runtime_error& e) {
+		std::cerr << "Caught exception: " << e.what() << std::endl;
+	}
 }
