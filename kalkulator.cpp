@@ -26,7 +26,12 @@ public:
 	}
 	Calculator& operator/(int value)
 	{
-		return *this /= value;
+		if (value == 0)
+		{
+			throw std::runtime_error("You cannot divide by 0, I'm sorry(");
+		}
+		memory /= value;
+		return *this;
 	}
 	Calculator& operator+=(int value)
 	{
@@ -47,7 +52,7 @@ public:
 	{
 		if (value == 0)
 		{
-			std::runtime_error << "You cannot divide by 0, I`m sorry(" << std::endl;
+			throw std::runtime_error << "You cannot divide by 0, I`m sorry(" << std::endl;
 			return *this;
 		}
 		memory /= value;
